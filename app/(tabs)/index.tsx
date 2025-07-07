@@ -1,21 +1,21 @@
-import { Link } from "expo-router";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image } from "expo-image";
+import * as ImagePicker from "expo-image-picker";
+import { StyleSheet, View } from "react-native";
 
-
+const PlaceHolderImages = require("@/assets/images/background-image.png");
 export default function Index() {
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
+  };
+
   return (
-    <View
-      style={styles.container}
-    >
-      <Text style={styles.text}>Edit app/index.tsx to edit this screen.</Text>
-      <TouchableOpacity >
-        <Text style={styles.button}>
-        This is a button
-        </Text>
-      </TouchableOpacity>
-      <Link href={"/about"} style={styles.link}>
-      This is A Link to about screen
-      </Link>
+    <View style={styles.container}>
+      <View style={styles.imageContainer}>
+        <Image source={PlaceHolderImages} style={styles.image} />
+      </View>
     </View>
   );
 }
@@ -23,21 +23,29 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#25292e',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#25292e",
+    alignItems: "center",
+    justifyContent: "center",
   },
   text: {
-    color: '#fff',
+    color: "#fff",
   },
-  button:{
-    color: '#FF0000',
+  button: {
+    color: "#FF0000",
     margin: 20,
-    borderColor: "#fff"
+    borderColor: "#fff",
   },
   link: {
-fontSize: 20,
-textDecorationLine: "underline",
-color: '#00008b'
-  }
+    fontSize: 20,
+    textDecorationLine: "underline",
+    color: "#00008b",
+  },
+  imageContainer: {
+    flex: 1,
+  },
+  image: {
+    width: 320,
+    height: 440,
+    borderRadius: 18,
+  },
 });
