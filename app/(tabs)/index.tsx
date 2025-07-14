@@ -7,7 +7,15 @@ import IconButton from "@/components/IconButtons";
 import ImageViewer from "@/components/ImageViewer";
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
-import { ImageSourcePropType, StyleSheet, View } from "react-native";
+import {
+  Alert,
+  ImageSourcePropType,
+  Platform,
+  StyleSheet,
+  View,
+} from "react-native";
+
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const PlaceHolderImages = require("@/assets/images/background-image.png");
 export default function Index() {
@@ -46,12 +54,18 @@ export default function Index() {
   };
 
   const onSaveImageAsync = async () => {
+    console.log("object");
+    if (Platform.OS === "web") {
+      alert("Hello! This is a simple alert."); // fallback for web
+    } else {
+      Alert.alert("Hello!", "This is a simple alert.");
+    }
     // we will implement this later
   };
 
   console.log(pickedEmoji);
   return (
-    <View style={styles.container}>
+    <GestureHandlerRootView style={styles.container}>
       <View style={styles.imageContainer}>
         <ImageViewer
           imgSource={PlaceHolderImages}
@@ -85,7 +99,7 @@ export default function Index() {
       <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
         <EmojiList onCloseModal={onModalClose} onSelect={setPickedEmoji} />
       </EmojiPicker>
-    </View>
+    </GestureHandlerRootView>
   );
 }
 
