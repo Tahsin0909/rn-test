@@ -5,6 +5,7 @@ import EmojiSticker from "@/components/EmojiSticker";
 import EmojiPicker from "@/components/Emoji{icer";
 import IconButton from "@/components/IconButtons";
 import ImageViewer from "@/components/ImageViewer";
+import domtoimage from "dom-to-image";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import { useRef, useState } from "react";
@@ -57,8 +58,23 @@ export default function Index() {
 
   const onSaveImageAsync = async () => {
     console.log("object");
-    if (Platform.OS === "web") {
-      alert("Hello! This is a simple alert."); // fallback for web
+    if (Platform.OS === "web" && imageRef.current) {
+      console.log("WEb");
+      try {
+        //@ts-ignore
+        const dataUrl = await domtoimage.toJpeg(imageRef?.current, {
+          quality: 0.95,
+          width: 320,
+          height: 440,
+        });
+
+        let link = document.createElement("a");
+        link.download = "sticker-smash.jpeg";
+        link.href = dataUrl;
+        link.click();
+      } catch (e) {
+        console.log(e);
+      }
     } else {
       try {
         const localUri = await captureRef(imageRef, {
@@ -107,7 +123,7 @@ export default function Index() {
         <View style={styles.footerContainer}>
           <Button theme="primary" label="Choose a photo" onPress={pickImage} />
           <Button
-            label="Use this photo"
+            label="Use this photo 2"
             onPress={() => setShowAppOptions(true)}
           />
         </View>
